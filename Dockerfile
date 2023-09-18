@@ -30,11 +30,10 @@ ARG host_uid=1001
 ARG host_gid=1001
 RUN groupadd -g $host_gid $USER_NAME && useradd -g $host_gid -m -s /bin/bash -u $host_uid $USER_NAME
 RUN addgroup $USER_NAME dialout
-RUN usermod -a -G sudo $USER_NAME
 
 # Añadimos la contraseña al user root por si necesitamos lanzar algo como root
 RUN echo "root:root" | chpasswd
-RUN echo "mjonian:mjonian" | chpasswd
+RUN echo "mjonian:mjonian" | chpasswd && adduser $USER_NAME sudo
 
 # Perform the Yocto build as user mjonian (not as root).
 # NOTE: The USER command does not set the environment variable HOME.
